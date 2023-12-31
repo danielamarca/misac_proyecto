@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "bun --hot index.ts",
-    "start": "bun index.ts",
-    "bun:build": "bun build index.ts --compile --outfile=miApp --minify"
+    "start": "bun ./out/server.js",
+    "bun:build": "bun build index.ts --outfile=out/server.js --minify",
+    "build": "bun-vercel ./src/main.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -16,6 +17,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bun-vercel": "^1.0.0-alpha.5",
     "elysia": "^0.7.30",
     "hono": "^3.11.9",
     "joi": "^17.11.0",
