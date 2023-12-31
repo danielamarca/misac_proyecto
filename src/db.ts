@@ -3,7 +3,7 @@ const dbUser = process.env.dbUser || 'root';
 const dbUserPass = process.env.dbUserPass || 'root';
 const dbName = process.env.dbName || 'proyecto1';
 export const sequelize = new Sequelize(
-    //`mysql://${dbUser}:${dbUserPass}@localhost:3306/${dbName}`,
+    // `mysql://${dbUser}:${dbUserPass}@localhost:3306/${dbName}`,
     `mysql://root:1b-4C1Gd4feHaBCGaa1bAebf3bcE2gfB@roundhouse.proxy.rlwy.net:46556/railway`,
     {
         logging: false,
