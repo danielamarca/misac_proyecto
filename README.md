@@ -1,16 +1,16 @@
 # proyecto
 
-To install dependencies:
+Instalación de dependencias:
 
 ```bash
 bun install
 ```
 
-To run:
+Ejecución:
 
 ```bash
 bun run index.ts
 ```
 
-This project was created using `bun init` in bun v1.0.14. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+Este proyecto fue creado con `bun init` bun v1.0.14. [Bun](https://bun.sh) .
 # misac_proyecto

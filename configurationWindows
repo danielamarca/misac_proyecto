@@ -1,0 +1,9 @@
+New-NetFirewallRule -DisplayName "WSL HTTP Port 3000" -Direction Inbound -Protocol TCP -LocalPort 3000 -Action Allow
+netsh interface portproxy add v4tov4 listenaddress=192.168.1.22 listenport=3000 connectaddress=172.17.239.39 connectport=3000
+
+
+Get-NetFirewallRule -DisplayName "WSL HTTP Port 3000"
+
+
+
+Restart-Service iphlpsvc
