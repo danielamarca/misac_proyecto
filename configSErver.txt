@@ -1,0 +1,1 @@
+PS C:\> ssh -i bun.pem ec2-user@15.228.155.14

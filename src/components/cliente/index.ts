@@ -1,3 +1,3 @@
-import * as Controller from './controller';
-import * as Servicio from './servicio';
-export { Controller, Servicio };
+import Controlador from './controlador';
+import Servicio from './servicio';
+export { Controlador, Servicio };

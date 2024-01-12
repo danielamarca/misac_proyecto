@@ -8,11 +8,9 @@
     "build": "bun build index.ts --outfile=out/server.js --minify"
   },
   "devDependencies": {
+    "@elysiajs/swagger": "^0.8.3",
     "@types/bcryptjs": "^2.4.6",
     "bun-types": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

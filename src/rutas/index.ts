@@ -5,10 +5,13 @@ import * as Cliente from '../components/cliente';
 import usuario from '../auth/usuario';
 import * as Auth from '../auth';
 import * as Equipo from '../components/articulo/Equipo';
-const RutaServicio = new Elysia({ prefix: '/tarea' }).use(Servicio.Controller.default);
-const RutaEmpleado = new Elysia({ prefix: '/empleado' }).use(Empleado.Controller.default);
-const RutaCliente = new Elysia({ prefix: '/cliente' }).use(Cliente.Controller.default);
-const RutaEquipos = new Elysia({ prefix: '/equipo' }).use(Equipo.Controlador.default);
+
+const RutaEquipos = new Elysia({ prefix: '/equipo' }).use(Equipo.Controlador);
+const RutaCliente = new Elysia({ prefix: '/cliente' }).use(Cliente.Controlador);
+const RutaEmpleado = new Elysia({ prefix: '/empleado' }).use(Empleado.Controlador);
+const RutaServicio = new Elysia({ prefix: '/servicio' }).use(Servicio.Servicio.Controlador);
+
+
 const RutaUsuario = new Elysia({ prefix: '/usuario' }).use(usuario);
 const RutaAuth = new Elysia({ prefix: '/auth' }).use(Auth.default);
 export default new Elysia()

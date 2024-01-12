@@ -4,6 +4,9 @@ netsh interface portproxy add v4tov4 listenaddress=192.168.1.22 listenport=3000 
 
 Get-NetFirewallRule -DisplayName "WSL HTTP Port 3000"
 
+Remove-NetFirewallRule -DisplayName "WSL HTTP Port 3000"
 
 
 Restart-Service iphlpsvc
+
+netsh interface portproxy add v4tov4 listenaddress=192.168.1.24 listenport=3000 connectaddress=172.17.239.39 connectport=3000
