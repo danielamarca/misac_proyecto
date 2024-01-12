@@ -1,9 +1,18 @@
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
 import * as bcrypt from 'bcryptjs';
 import { Usuario } from '../db';
 import { SignJWT } from 'jose';
-import { schemaUsuario } from './usuario';
 const SECRET_KEY = new TextEncoder().encode(process.env.SECRET_KEY || 'julio');
+export const schemaAuth = t.Object({
+    username: t.String({
+        default: 'daniel',
+        description: "Unicamente: Usuario y debe ser unico"
+    }),
+    password: t.String({
+        default: "daniel",
+        description: "Debe contener (mayusculas, minusculas, numeros, caracteres especiales)"
+    })
+});
 const auth = new Elysia()
     .onError(({ code, error, set }) => {
         if (code) {
@@ -26,6 +35,6 @@ auth.post('/', async ({ body }: any) => {
     } catch (e) {
         throw new Error('Ocurrio un error inesperado');
     }
-}, { body: schemaUsuario });
+}, { body: schemaAuth });
 
 export default auth;
