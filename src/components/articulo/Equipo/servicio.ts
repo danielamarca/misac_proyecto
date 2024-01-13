@@ -130,7 +130,7 @@ const Servicio = {
     listarEquipo: async function () {
         try {
             const response = await Equipo.findAll({
-                order: [['createdAt', 'DESC']]
+                order: [['nombre', 'ASC']]
             });
             return { data: response };
         } catch (e) {
@@ -140,7 +140,7 @@ const Servicio = {
     listarEquipoCategoria: async function () {
         try {
             const response = await EquipoCategoria.findAll({
-                order: [['createdAt', 'ASC']]
+                order: [['nombre', 'ASC']]
             });
             return { data: response };
         } catch (e) {
@@ -157,7 +157,9 @@ const Servicio = {
     },
     listarProveedor: async function () {
         try {
-            const response = await Proveedor.findAll();
+            const response = await Proveedor.findAll({
+                order: [['nombre', 'ASC']]
+            });
             return { data: response };
         } catch (e) {
             throw new Error('Error al listar Equipos')
