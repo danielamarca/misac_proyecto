@@ -62,14 +62,14 @@ export const schemaEquipo = t.Object({
         default: "COLOR: AZUL, RESOLUCION: 2MP",
         description: "Unicamente: Texto"
     })),
-    precio: t.Optional(t.Number({
+    precio: t.Number({
         default: 20.5,
         description: "Unicamente: En [Bs] Bolivianos"
-    })),
-    stock: t.Optional(t.Number({
+    }),
+    stock: t.Number({
         default: 5,
         description: "Unicamente: En Enteros"
-    })),
+    }),
 });
 
 export const schemaEquipoCodigo = t.Object({
