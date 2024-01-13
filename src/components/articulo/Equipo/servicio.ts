@@ -178,7 +178,7 @@ const Servicio = {
                         as: 'equipoCategorias' // Este 'as' debe coincidir con cómo definiste la asociación
                     }
                 ],
-                order: [['createdAt', 'DESC']]
+                order: [['nombre', 'ASC']]
             });
             return { data: response };
         } catch (e) {
