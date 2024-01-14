@@ -112,7 +112,7 @@ export const schemaEquipoFoto = t.Object({
         default: "RSdst34as",
         description: "Unicamente: ID: String | Object"
     })),
-    archivo: t.String({
+    archivoUrl: t.String({
         default: "asdfasdfasdgfasdddsd",
         description: "Unicamente: Archivo BLOB"
     }),
