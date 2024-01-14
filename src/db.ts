@@ -164,7 +164,7 @@ export const EquipoFoto = sequelize.define("equipoFoto", {
             key: 'id'
         }
     },
-    archivo: DataTypes.BLOB,
+    archivoUrl: DataTypes.STRING,
     formato: DataTypes.STRING,
     descripcion: DataTypes.STRING
 });
@@ -189,7 +189,7 @@ export const HerramientaFoto = sequelize.define("herramientaFoto", {
             key: 'id'
         }
     },
-    archivo: DataTypes.BLOB,
+    archivoUrl: DataTypes.STRING,
     formato: DataTypes.STRING,
     descripcion: DataTypes.STRING
 });
@@ -223,7 +223,7 @@ export const InsumoFoto = sequelize.define("insumoFoto", {
             key: 'id'
         }
     },
-    archivo: DataTypes.BLOB,
+    archivoUrl: DataTypes.STRING,
     formato: DataTypes.STRING,
     descripcion: DataTypes.STRING
 });
@@ -379,7 +379,7 @@ export const TareaFoto = sequelize.define("tareaFoto", {
             key: 'id'
         }
     },
-    archivo: DataTypes.BLOB,
+    archivoUrl: DataTypes.STRING,
     formato: DataTypes.STRING,
     descripcion: DataTypes.STRING
 });
