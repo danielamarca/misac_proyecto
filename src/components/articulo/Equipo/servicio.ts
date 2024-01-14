@@ -176,6 +176,9 @@ const Servicio = {
                     {
                         model: EquipoCategoria,
                         as: 'equipoCategorias' // Este 'as' debe coincidir con cómo definiste la asociación
+                    },
+                    {
+                        model: EquipoFoto,
                     }
                 ],
                 order: [['nombre', 'ASC']]
