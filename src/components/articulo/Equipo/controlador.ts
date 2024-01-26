@@ -21,7 +21,6 @@ Controlador.put('/categoria/:id', Servicio.modificarEquipoCategoria, { body: sch
 Controlador.delete('/categoria/:id', Servicio.eliminarEquipoCategoria);
 
 
-
 Controlador.get('/proveedor/', Servicio.listarProveedor);
 Controlador.get('/proveedor/equipos/', Servicio.listarProveedorEquipos);
 Controlador.post('/proveedor/', Servicio.crearProveedor, { body: schemaProveedor });

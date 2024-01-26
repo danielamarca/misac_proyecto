@@ -1,3 +1,4 @@
+import { create } from "domain";
 import { DATE, DataTypes, Sequelize } from "sequelize";
 const dbUser = process.env.dbUser || 'root';
 const dbUserPass = process.env.dbUserPass || 'root';
@@ -14,6 +15,20 @@ export const sequelize = new Sequelize(
     },
 );
 await sequelize.authenticate();
+export const sync = sequelize.define('sync', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    tabla: DataTypes.STRING,
+    action: DataTypes.STRING,
+    id_tabla: DataTypes.STRING
+});
+sync.addHook('afterCreate', async (syncInstance, options) => {
+    // Lógica antes de crear un registro en la tabla sync
+    console.log('Antes de crear un registro en la tabla sync:', syncInstance.dataValues);
+});
 
 export const Cliente = sequelize.define("cliente", {
     id: {
@@ -33,6 +48,10 @@ export const Cliente = sequelize.define("cliente", {
     telefono: DataTypes.STRING,
     correo: DataTypes.STRING
 });
+Cliente.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Cliente', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Cliente.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Cliente', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Cliente.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Cliente', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Empleado = sequelize.define("empleado", {
     id: {
         type: DataTypes.STRING,
@@ -52,6 +71,10 @@ export const Empleado = sequelize.define("empleado", {
     telefono: DataTypes.STRING,
     correo: DataTypes.STRING
 });
+Empleado.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Empleado', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Empleado.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Empleado', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Empleado.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Empleado', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Tecnico = sequelize.define("empleadoTecnico", {
     id: {
         type: DataTypes.STRING,
@@ -66,6 +89,10 @@ export const Tecnico = sequelize.define("empleadoTecnico", {
     },
     especialidad: DataTypes.STRING
 });
+Tecnico.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Tecnico', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Tecnico.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Tecnico', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Tecnico.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Tecnico', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Usuario = sequelize.define("usuario", {
     id: {
         type: DataTypes.STRING,
@@ -86,6 +113,10 @@ export const Usuario = sequelize.define("usuario", {
     password: DataTypes.STRING,
 
 });
+Usuario.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Usuario', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Usuario.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Usuario', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Usuario.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Usuario', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Proveedor = sequelize.define("proveedor", {
     id: {
         type: DataTypes.STRING,
@@ -99,6 +130,10 @@ export const Proveedor = sequelize.define("proveedor", {
     direccion: DataTypes.STRING,
     contacto: DataTypes.STRING,
 });
+Proveedor.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Proveedor', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Proveedor.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Proveedor', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Proveedor.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Proveedor', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const EquipoCategoria = sequelize.define('equipoCategoria', {
     id: {
         type: DataTypes.STRING,
@@ -110,6 +145,9 @@ export const EquipoCategoria = sequelize.define('equipoCategoria', {
     },
     descripcion: DataTypes.STRING,
 });
+EquipoCategoria.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'EquipoCategoria', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+EquipoCategoria.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'EquipoCategoria', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+EquipoCategoria.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'EquipoCategoria', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
 
 export const Equipo = sequelize.define("equipo", {
     id: {
@@ -135,6 +173,10 @@ export const Equipo = sequelize.define("equipo", {
     precio: DataTypes.FLOAT,
     stock: DataTypes.INTEGER,
 });
+Equipo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Equipo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Equipo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Equipo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Equipo.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Equipo', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const EquipoCodigo = sequelize.define("equipoCodigo", {
     id: {
         type: DataTypes.STRING,
@@ -152,6 +194,10 @@ export const EquipoCodigo = sequelize.define("equipoCodigo", {
     codigo: DataTypes.STRING,
     estado: DataTypes.STRING,
 });
+EquipoCodigo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'EquipoCodigo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+EquipoCodigo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'EquipoCodigo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+EquipoCodigo.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'EquipoCodigo', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const EquipoFoto = sequelize.define("equipoFoto", {
     id: {
         type: DataTypes.STRING,
@@ -168,15 +214,26 @@ export const EquipoFoto = sequelize.define("equipoFoto", {
     formato: DataTypes.STRING,
     descripcion: DataTypes.STRING
 });
+EquipoFoto.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'EquipoFoto', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+EquipoFoto.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'EquipoFoto', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+EquipoFoto.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'EquipoFoto', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Herramienta = sequelize.define("herramienta", {
     id: {
         type: DataTypes.STRING,
         primaryKey: true,
     },
-    nombre: DataTypes.STRING,
+    nombre: {
+        type: DataTypes.STRING,
+        unique: true,
+    },
     descripcion: DataTypes.STRING,
     stock: DataTypes.INTEGER,
 });
+Herramienta.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Herramienta', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Herramienta.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Herramienta', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Herramienta.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Herramienta', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const HerramientaFoto = sequelize.define("herramientaFoto", {
     id: {
         type: DataTypes.STRING,
@@ -193,6 +250,10 @@ export const HerramientaFoto = sequelize.define("herramientaFoto", {
     formato: DataTypes.STRING,
     descripcion: DataTypes.STRING
 });
+HerramientaFoto.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'HerramientaFoto', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+HerramientaFoto.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'HerramientaFoto', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+HerramientaFoto.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'HerramientaFoto', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Insumo = sequelize.define("insumo", {
     id: {
         type: DataTypes.STRING,
@@ -210,6 +271,9 @@ export const Insumo = sequelize.define("insumo", {
     costo: DataTypes.FLOAT,
     stock: DataTypes.INTEGER,
 });
+Insumo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Insumo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Insumo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Insumo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Insumo.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Insumo', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
 
 export const InsumoFoto = sequelize.define("insumoFoto", {
     id: {
@@ -227,14 +291,25 @@ export const InsumoFoto = sequelize.define("insumoFoto", {
     formato: DataTypes.STRING,
     descripcion: DataTypes.STRING
 });
+InsumoFoto.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'InsumoFoto', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+InsumoFoto.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'InsumoFoto', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+InsumoFoto.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'InsumoFoto', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const ServicioTipo = sequelize.define("servicioTipo", {
     id: {
         type: DataTypes.STRING,
         primaryKey: true,
     },
-    tipo: DataTypes.STRING,
+    tipo: {
+        type: DataTypes.STRING,
+        unique: true,
+    },
     descripcion: DataTypes.STRING
 });
+ServicioTipo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioTipo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+ServicioTipo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioTipo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+ServicioTipo.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'ServicioTipo', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Servicio = sequelize.define("servicio", {
     id: {
         type: DataTypes.STRING,
@@ -268,6 +343,10 @@ export const Servicio = sequelize.define("servicio", {
     fechaProgramada: DataTypes.DATE,
 
 });
+Servicio.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Servicio', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Servicio.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Servicio', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Servicio.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Servicio', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const ServicioInspeccion = sequelize.define('servicioInspeccion', {
     id: {
         type: DataTypes.STRING,
@@ -280,10 +359,17 @@ export const ServicioInspeccion = sequelize.define('servicioInspeccion', {
             key: 'id',
         }
     },
-    estado: DataTypes.STRING,
+    estado: {
+        type: DataTypes.STRING,
+        unique: true,
+    },
     monto: DataTypes.FLOAT,
     observacion: DataTypes.STRING,
 });
+ServicioInspeccion.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInspeccion', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+ServicioInspeccion.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInspeccion', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+ServicioInspeccion.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInspeccion', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const ServicioEquipo = sequelize.define("servicioEquipo", {
     id: {
         type: DataTypes.STRING,
@@ -306,6 +392,10 @@ export const ServicioEquipo = sequelize.define("servicioEquipo", {
     cantidad: DataTypes.INTEGER,
     unidad: DataTypes.STRING,
 });
+ServicioEquipo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioEquipo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+ServicioEquipo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioEquipo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+ServicioEquipo.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'ServicioEquipo', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const ServicioHerramienta = sequelize.define("servicioHerramienta", {
     id: {
         type: DataTypes.STRING,
@@ -327,6 +417,10 @@ export const ServicioHerramienta = sequelize.define("servicioHerramienta", {
     },
     costo: DataTypes.FLOAT,
 });
+ServicioHerramienta.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioHerramienta', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+ServicioHerramienta.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioHerramienta', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+ServicioHerramienta.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'ServicioHerramienta', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const ServicioInsumo = sequelize.define("servicioInsumo", {
     id: {
         type: DataTypes.STRING,
@@ -349,6 +443,10 @@ export const ServicioInsumo = sequelize.define("servicioInsumo", {
     cantidad: DataTypes.INTEGER,
     unidad: DataTypes.STRING,
 });
+ServicioInsumo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInsumo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+ServicioInsumo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInsumo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+ServicioInsumo.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInsumo', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Tarea = sequelize.define("tarea", {
     id: {
         type: DataTypes.STRING,
@@ -367,6 +465,10 @@ export const Tarea = sequelize.define("tarea", {
     fechaInicio: DataTypes.DATE,
     fechaFin: DataTypes.DATE,
 });
+Tarea.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Tarea', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Tarea.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Tarea', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Tarea.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Tarea', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const TareaFoto = sequelize.define("tareaFoto", {
     id: {
         type: DataTypes.STRING,
@@ -383,6 +485,10 @@ export const TareaFoto = sequelize.define("tareaFoto", {
     formato: DataTypes.STRING,
     descripcion: DataTypes.STRING
 });
+TareaFoto.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'TareaFoto', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+TareaFoto.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'TareaFoto', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+TareaFoto.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'TareaFoto', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Venta = sequelize.define("venta", {
     id: {
         type: DataTypes.STRING,
@@ -400,6 +506,10 @@ export const Venta = sequelize.define("venta", {
     fecha: DataTypes.DATE,
     total: DataTypes.FLOAT,
 });
+Venta.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Venta', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Venta.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Venta', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Venta.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Venta', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const VentaPago = sequelize.define("ventaPago", {
     id: {
         type: DataTypes.STRING,
@@ -415,6 +525,10 @@ export const VentaPago = sequelize.define("ventaPago", {
     fecha: DataTypes.DATE,
     monto: DataTypes.FLOAT,
 });
+VentaPago.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'VentaPago', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+VentaPago.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'VentaPago', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+VentaPago.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'VentaPago', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const VentaEquipo = sequelize.define("ventaEquipo", {
     id: {
         type: DataTypes.STRING,
@@ -438,6 +552,10 @@ export const VentaEquipo = sequelize.define("ventaEquipo", {
     cantidad: DataTypes.INTEGER,
     unidad: DataTypes.STRING,
 });
+VentaEquipo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'VentaEquipo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+VentaEquipo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'VentaEquipo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+VentaEquipo.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'VentaEquipo', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const VentaInsumo = sequelize.define("ventaInsumo", {
     id: {
         type: DataTypes.STRING,
@@ -460,6 +578,10 @@ export const VentaInsumo = sequelize.define("ventaInsumo", {
     cantidad: DataTypes.INTEGER,
     unidad: DataTypes.STRING,
 });
+VentaInsumo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'VentaInsumo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+VentaInsumo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'VentaInsumo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+VentaInsumo.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'VentaInsumo', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const Cotizacion = sequelize.define("cotizacion", {
     id: {
         type: DataTypes.STRING,
@@ -477,6 +599,10 @@ export const Cotizacion = sequelize.define("cotizacion", {
     monto: DataTypes.FLOAT,
     estado: DataTypes.BIGINT,
 });
+Cotizacion.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Cotizacion', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+Cotizacion.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Cotizacion', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+Cotizacion.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'Cotizacion', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const CotizacionServicio = sequelize.define("cotizacion", {
     id: {
         type: DataTypes.STRING,
@@ -501,6 +627,10 @@ export const CotizacionServicio = sequelize.define("cotizacion", {
     monto: DataTypes.FLOAT,
     observacion: DataTypes.STRING,
 });
+CotizacionServicio.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'CotizacionServicio', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+CotizacionServicio.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'CotizacionServicio', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+CotizacionServicio.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'CotizacionServicio', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
+
 export const CotizacionVenta = sequelize.define("cotizacion", {
     id: {
         type: DataTypes.STRING,
@@ -526,6 +656,9 @@ export const CotizacionVenta = sequelize.define("cotizacion", {
     observacion: DataTypes.STRING,
 
 });
+CotizacionVenta.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'CotizacionVenta', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
+CotizacionVenta.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'CotizacionVenta', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
+CotizacionVenta.addHook('afterDestroy', async (clienteInstance) => { await sync.create({ tabla: 'CotizacionVenta', action: 'delete', id_tabla: clienteInstance.dataValues.id }); });
 
 Cliente.hasMany(Servicio, {
     foreignKey: 'id_cliente',
