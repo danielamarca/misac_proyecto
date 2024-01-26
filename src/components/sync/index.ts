@@ -1,4 +1,4 @@
-import { Equipo, Proveedor, EquipoCategoria, sync, EquipoFoto, EquipoCodigo } from '../../db';
+import { Equipo, Proveedor, EquipoCategoria, sync, EquipoFoto, EquipoCodigo, Usuario, Cliente, Empleado, Tecnico } from '../../db';
 import { Op } from 'sequelize';
 import { Elysia } from 'elysia';
 
@@ -37,6 +37,30 @@ Controlador.get('/equipo', async ({ query }) => {
     const response = await getItemsByDate(Equipo, date);
     return { data: response };
 });
+Controlador.get('/usuario', async ({ query }) => {
+    const { date } = query;
+    if (!date) return Usuario.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(Usuario, date);
+    return { data: response };
+});
+Controlador.get('/empleado', async ({ query }) => {
+    const { date } = query;
+    if (!date) return Empleado.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(Empleado, date);
+    return { data: response };
+});
+Controlador.get('/cliente', async ({ query }) => {
+    const { date } = query;
+    if (!date) return Cliente.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(Cliente, date);
+    return { data: response };
+});
 Controlador.get('/equipo_codigo', async ({ query }) => {
     const { date } = query;
     if (!date) return EquipoCodigo.findAll({
@@ -45,6 +69,12 @@ Controlador.get('/equipo_codigo', async ({ query }) => {
     const response = await getItemsByDate(EquipoCodigo, date);
     return { data: response };
 });
+Controlador.get('/empleado_tecnico', async ({ query }) => {
+    const { date } = query;
+    if (!date) return Tecnico.findAll({ order: [['updatedAt', 'ASC']] });
+    const response = await getItemsByDate(Tecnico, date);
+    return { data: response };
+})
 Controlador.get('/equipo_foto', async ({ query }) => {
     const { date } = query;
     if (!date) return EquipoFoto.findAll({
