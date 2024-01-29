@@ -10,9 +10,12 @@ const Controlador = new Elysia()
 
 Controlador.get('/', Servicio.listarServicio);
 Controlador.post('/', Servicio.crearServicio, { body: schemaServicio });
+Controlador.put('/:id', Servicio.modificarServicio, { body: schemaServicio });
 Controlador.delete('/:id', Servicio.eliminarServicio);
 
 
 Controlador.post('/tipo', Servicio.crearServicioTipo, { body: schemaServicioTipo });
+Controlador.get('/tipo', Servicio.listarServicioTipo);
+Controlador.delete('/tipo/:id', Servicio.eliminarServicioTipo);
 
 export default Controlador;

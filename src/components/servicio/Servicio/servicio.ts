@@ -73,6 +73,14 @@ const Servicio = {
             throw new Error('Error a listar Serivico');
         }
     },
+    listarServicioTipo: async function () {
+        try {
+            const response = await ServicioTipo.findAll();
+            return { data: response };
+        } catch (e) {
+            throw new Error('Error a listar Tipo de Serivico');
+        }
+    },
     crearServicioTipo: async function ({ body }: any) {
         const { ...value } = body;
         try {
@@ -115,6 +123,34 @@ const Servicio = {
             throw new Error(e.message);
         }
     },
+    modificarServicio: async function ({ params: { id }, body }: any) {
+        if (!body || !id) throw new Error('No existe ID o body');
+        const { id_servicio_tipo, id_cliente, id_tecnico, ...value } = body;
+        let servicioTipo, cliente, tecnico;
+        try {
+            const servicio = await ServicioDB.findByPk(id);
+            if (!servicio) throw new Error('No existe el Servicio');
+            if (!id_servicio_tipo || !id_cliente || !id_tecnico) throw new Error("No se tiene las referencias id_servicio_tipo | id_cliente | id_tecnico");
+            servicioTipo = (typeof id_servicio_tipo == 'string') && await ServicioTipo.findByPk(id_servicio_tipo)
+            if (!servicioTipo) throw new Error('Error al modificar o no existe el Servicio Tipo');
+            cliente = (typeof id_cliente === 'string') && await Cliente.findByPk(id_cliente);
+            if (!cliente) throw new Error('Error al modificar o no existe el Tipo de servicio');
+            tecnico = (typeof id_tecnico === 'string') && await Tecnico.findByPk(id_tecnico);
+            if (!tecnico) throw new Error('Error al crear o no existe el Tecnico');
+            const response = await servicio.update({
+                ...value,
+                id_servicio_tipo: servicioTipo.id,
+                id_cliente: cliente.id,
+                id_tecnico: tecnico.id,
+            });
+            return { data: response };
+        } catch (e) {
+            if (e.name === 'SequelizeUniqueConstraintError') {
+                throw new Error('Nombre debe ser único tanto en Cliente');
+            }
+            throw new Error(e.message);
+        }
+    },
     eliminarServicio: async function ({ params: { id } }: any) {
         if (!id) throw new Error('No existe ID');
         try {
@@ -122,6 +158,17 @@ const Servicio = {
             if (!servicio) throw new Error('No existe el Servicio que quiere eliminar');
             await servicio.destroy();
             return { data: servicio };
+        } catch (e) {
+
+        }
+    },
+    eliminarServicioTipo: async function ({ params: { id } }: any) {
+        if (!id) throw new Error('No existe ID');
+        try {
+            const tipo = await ServicioTipo.findByPk(id);
+            if (!tipo) throw new Error('No existe el Servicio que quiere eliminar');
+            await tipo.destroy();
+            return { data: tipo };
         } catch (e) {
 
         }
