@@ -390,7 +390,7 @@ export const ServicioEquipo = sequelize.define("servicioEquipo", {
         }
     },
     cantidad: DataTypes.INTEGER,
-    unidad: DataTypes.STRING,
+    codigo: DataTypes.STRING,
 });
 ServicioEquipo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioEquipo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
 ServicioEquipo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioEquipo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
