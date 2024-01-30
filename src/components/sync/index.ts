@@ -69,7 +69,7 @@ Controlador.get('/equipo_codigo', async ({ query }) => {
     const response = await getItemsByDate(EquipoCodigo, date);
     return { data: response };
 });
-Controlador.get('/empleado_tecnico', async ({ query }) => {
+Controlador.get('/tecnico', async ({ query }) => {
     const { date } = query;
     if (!date) return Tecnico.findAll({ order: [['updatedAt', 'ASC']] });
     const response = await getItemsByDate(Tecnico, date);
