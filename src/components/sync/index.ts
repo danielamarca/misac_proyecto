@@ -1,4 +1,4 @@
-import { Equipo, Proveedor, EquipoCategoria, sync, EquipoFoto, EquipoCodigo, Usuario, Cliente, Empleado, Tecnico } from '../../db';
+import { Equipo, Proveedor, EquipoCategoria, Servicio, sync, EquipoFoto, EquipoCodigo, Usuario, Cliente, Empleado, Tecnico, ServicioEquipo, ServicioInspeccion, ServicioTipo, Tarea, TareaFoto } from '../../db';
 import { Op } from 'sequelize';
 import { Elysia } from 'elysia';
 
@@ -97,6 +97,54 @@ Controlador.get('/equipo_categoria', async ({ query }) => {
         order: [['updatedAt', 'ASC']]
     });
     const response = await getItemsByDate(EquipoCategoria, date);
+    return { data: response };
+});
+Controlador.get('/servicio', async ({ query }) => {
+    const { date } = query;
+    if (!date) return Servicio.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(Servicio, date);
+    return { data: response };
+});
+Controlador.get('/servicio_equipo', async ({ query }) => {
+    const { date } = query;
+    if (!date) return ServicioEquipo.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(ServicioEquipo, date);
+    return { data: response };
+});
+Controlador.get('/servicio_inspeccion', async ({ query }) => {
+    const { date } = query;
+    if (!date) return ServicioInspeccion.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(ServicioInspeccion, date);
+    return { data: response };
+});
+Controlador.get('/servicio_tipo', async ({ query }) => {
+    const { date } = query;
+    if (!date) return ServicioTipo.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(ServicioTipo, date);
+    return { data: response };
+});
+Controlador.get('/tarea', async ({ query }) => {
+    const { date } = query;
+    if (!date) return Tarea.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(Tarea, date);
+    return { data: response };
+});
+Controlador.get('/tarea_foto', async ({ query }) => {
+    const { date } = query;
+    if (!date) return TareaFoto.findAll({
+        order: [['updatedAt', 'ASC']]
+    });
+    const response = await getItemsByDate(TareaFoto, date);
     return { data: response };
 });
 Controlador.get('/', async ({ query }) => {
