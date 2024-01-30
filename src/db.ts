@@ -363,7 +363,8 @@ export const ServicioInspeccion = sequelize.define('servicioInspeccion', {
         type: DataTypes.STRING,
         unique: true,
     },
-    monto: DataTypes.FLOAT,
+    fechaInspeccion: DataTypes.DATE,
+    costo: DataTypes.FLOAT,
     observacion: DataTypes.STRING,
 });
 ServicioInspeccion.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInspeccion', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
@@ -441,7 +442,6 @@ export const ServicioInsumo = sequelize.define("servicioInsumo", {
         }
     },
     cantidad: DataTypes.INTEGER,
-    unidad: DataTypes.STRING,
 });
 ServicioInsumo.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInsumo', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
 ServicioInsumo.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'ServicioInsumo', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
@@ -459,9 +459,10 @@ export const Tarea = sequelize.define("tarea", {
             key: 'id',
         }
     },
-    descripcion: DataTypes.STRING,
     estado: DataTypes.TINYINT,
+    descripcion: DataTypes.STRING,
     comentarios: DataTypes.STRING,
+    costo: DataTypes.FLOAT,
     fechaInicio: DataTypes.DATE,
     fechaFin: DataTypes.DATE,
 });
