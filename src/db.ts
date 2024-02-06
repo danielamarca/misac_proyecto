@@ -35,7 +35,10 @@ export const Cliente = sequelize.define("cliente", {
         type: DataTypes.STRING,
         primaryKey: true,
     },
-    cod_cliente: DataTypes.STRING,
+    cod_cliente: {
+        type: DataTypes.STRING,
+        unique: true,
+    },
     nombres: DataTypes.STRING,
     apellidoPaterno: DataTypes.STRING,
     apellidoMaterno: DataTypes.STRING,
@@ -47,6 +50,16 @@ export const Cliente = sequelize.define("cliente", {
     direccion: DataTypes.STRING,
     telefono: DataTypes.STRING,
     correo: DataTypes.STRING
+});
+
+Cliente.addHook('beforeCreate', async (clienteInstance: any, options) => {
+    const ultimoCodigo = await Cliente.max('cod_cliente');
+    let nuevoCodigo = 'CLI-001';
+    if (ultimoCodigo) {
+        const ultimoNumero = parseInt((ultimoCodigo as string).split('-')[1]);
+        nuevoCodigo = `CLI-${String(ultimoNumero + 1).padStart(3, '0')}`;
+    }
+    clienteInstance.setDataValue('cod_cliente', nuevoCodigo);
 });
 Cliente.addHook('afterCreate', async (clienteInstance) => { await sync.create({ tabla: 'Cliente', action: 'create', id_tabla: clienteInstance.dataValues.id }); });
 Cliente.addHook('afterUpdate', async (clienteInstance) => { await sync.create({ tabla: 'Cliente', action: 'update', id_tabla: clienteInstance.dataValues.id }); });
@@ -329,6 +342,13 @@ export const Servicio = sequelize.define("servicio", {
             key: 'id'
         }
     },
+    id_empleado: {
+        type: DataTypes.STRING,
+        references: {
+            model: Empleado,
+            key: 'id'
+        }
+    },
     id_tecnico: {
         type: DataTypes.STRING,
         references: {
@@ -363,7 +383,23 @@ export const ServicioInspeccion = sequelize.define('servicioInspeccion', {
         type: DataTypes.STRING,
         unique: true,
     },
-    fechaInspeccion: DataTypes.DATE,
+    id_empleado: {
+        type: DataTypes.STRING,
+        references: {
+            model: Empleado,
+            key: 'id'
+        }
+    },
+    id_tecnico: {
+        type: DataTypes.STRING,
+        references: {
+            model: Tecnico,
+            key: 'id'
+        }
+    },
+    fechaProgramada: DataTypes.DATE,
+    fechaInicio: DataTypes.DATE,
+    fechaFin: DataTypes.DATE,
     costo: DataTypes.FLOAT,
     observacion: DataTypes.STRING,
 });
@@ -502,8 +538,15 @@ export const Venta = sequelize.define("venta", {
             key: 'id',
         }
     },
-    tipo: DataTypes.STRING,
-    estado: DataTypes.STRING,
+    id_empleado: {
+        type: DataTypes.STRING,
+        references: {
+            model: Empleado,
+            key: 'id'
+        }
+    },
+    tipo: DataTypes.STRING,// online, fisica
+    estado: DataTypes.STRING,//completado, en proceso, cancelado, reembolso, entregado
     fecha: DataTypes.DATE,
     total: DataTypes.FLOAT,
 });
@@ -596,7 +639,6 @@ export const Cotizacion = sequelize.define("cotizacion", {
         }
     },
     fechaCreacion: DataTypes.DATE,
-    fechaValidez: DataTypes.DATE,
     monto: DataTypes.FLOAT,
     estado: DataTypes.BIGINT,
 });
@@ -609,13 +651,6 @@ export const CotizacionServicio = sequelize.define("cotizacion", {
         type: DataTypes.STRING,
         primaryKey: true,
     },
-    id_cotizacion: {
-        type: DataTypes.STRING,
-        references: {
-            model: Cotizacion,
-            key: 'id'
-        }
-    },
     id_servicio: {
         type: DataTypes.STRING,
         references: {
@@ -623,8 +658,6 @@ export const CotizacionServicio = sequelize.define("cotizacion", {
             key: 'id'
         }
     },
-    fechaCreacion: DataTypes.DATE,
-    fechaValidez: DataTypes.DATE,
     monto: DataTypes.FLOAT,
     observacion: DataTypes.STRING,
 });
@@ -637,13 +670,6 @@ export const CotizacionVenta = sequelize.define("cotizacion", {
         type: DataTypes.STRING,
         primaryKey: true
     },
-    id_cotizacion: {
-        type: DataTypes.STRING,
-        references: {
-            model: Cotizacion,
-            key: 'id'
-        }
-    },
     id_venta: {
         type: DataTypes.STRING,
         references: {
@@ -651,8 +677,6 @@ export const CotizacionVenta = sequelize.define("cotizacion", {
             key: 'id'
         }
     },
-    fechaCreacion: DataTypes.DATE,
-    fechaValidez: DataTypes.DATE,
     monto: DataTypes.FLOAT,
     observacion: DataTypes.STRING,
 
@@ -799,4 +823,4 @@ Venta.hasMany(CotizacionVenta, {
     foreignKey: 'id_venta',
     onDelete: 'CASCADE'
 });
-await sequelize.sync({ force: false });
+await sequelize.sync({ force: true });

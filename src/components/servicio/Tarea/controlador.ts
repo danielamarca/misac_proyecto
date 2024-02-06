@@ -13,9 +13,9 @@ Controlador.post('/', Servicio.crearTarea, { body: schemaTarea });
 Controlador.put('/:id', Servicio.modificarTarea, { body: schemaTarea });
 Controlador.delete('/:id', Servicio.eliminarTarea);
 
-Controlador.get('/foto', Servicio.listarTareaFoto);
-Controlador.post('/foto', Servicio.crearTareaFoto, { body: schemaTareaFoto });
-Controlador.put('/foto/:id', Servicio.modificarTareaFoto, { body: schemaTareaFoto });
-Controlador.delete('/foto/:id', Servicio.eliminarTareaFoto);
+Controlador.get('/fotos', Servicio.listarTareaFoto);
+Controlador.post('/fotos', Servicio.crearTareaFoto, { body: schemaTareaFoto });
+Controlador.put('/fotos/:id', Servicio.modificarTareaFoto, { body: schemaTareaFoto });
+Controlador.delete('/fotos/:id', Servicio.eliminarTareaFoto);
 
 export default Controlador;

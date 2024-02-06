@@ -14,20 +14,20 @@ Controlador.put('/:id', Servicio.modificarServicio, { body: schemaServicio });
 Controlador.delete('/:id', Servicio.eliminarServicio);
 
 
-Controlador.get('/tipo', Servicio.listarServicioTipo);
-Controlador.post('/tipo', Servicio.crearServicioTipo, { body: schemaServicioTipo });
-Controlador.delete('/tipo/:id', Servicio.eliminarServicioTipo);
+Controlador.get('/tipos', Servicio.listarServicioTipo);
+Controlador.post('/tipos', Servicio.crearServicioTipo, { body: schemaServicioTipo });
+Controlador.delete('/tipos/:id', Servicio.eliminarServicioTipo);
 
 
-Controlador.get('/inspeccion', Servicio.listarServicioInspeccion);
-Controlador.post('/inspeccion', Servicio.crearServicioInspeccion, { body: schemaServicioInspeccion });
-Controlador.put('/inspeccion/:id', Servicio.modificarServicioInspeccion, { body: schemaServicioInspeccion });
-Controlador.delete('/inspeccion/:id', Servicio.eliminarServicioInspeccion);
+Controlador.get('/inspecciones', Servicio.listarServicioInspeccion);
+Controlador.post('/inspecciones', Servicio.crearServicioInspeccion, { body: schemaServicioInspeccion });
+Controlador.put('/inspecciones/:id', Servicio.modificarServicioInspeccion, { body: schemaServicioInspeccion });
+Controlador.delete('/inspecciones/:id', Servicio.eliminarServicioInspeccion);
 
 
-Controlador.get('/equipo', Servicio.listarServicioEquipo);
-Controlador.post('/equipo', Servicio.crearServicioEquipo, { body: schemaServicioEquipo });
-Controlador.put('/equipo/:id', Servicio.modificarServicioEquipo, { body: schemaServicioEquipo });
-Controlador.delete('/equipo/:id', Servicio.eliminarServicioEquipo);
+Controlador.get('/equipos', Servicio.listarServicioEquipo);
+Controlador.post('/equipos', Servicio.crearServicioEquipo, { body: schemaServicioEquipo });
+Controlador.put('/equipos/:id', Servicio.modificarServicioEquipo, { body: schemaServicioEquipo });
+Controlador.delete('/equipos/:id', Servicio.eliminarServicioEquipo);
 
 export default Controlador;
